@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  qsheet:
+    build: .
+    container_name: f3-qsheet
+    ports:
+      - "5000:5000"
+    volumes:
+      # Persist database outside container
+      - ./data:/app/data
+      # Mount .env for configuration
+      - ./.env:/app/.env:ro
+    environment:
+      - FLASK_ENV=production
+      - DATABASE_PATH=/app/data/qsheet.db
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+
+  # Optional: nginx reverse proxy for production
+  # nginx:
+  #   image: nginx:alpine
+  #   container_name: f3-qsheet-nginx
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   volumes:
+  #     - ./nginx.conf:/etc/nginx/nginx.conf:ro
+  #     - ./ssl:/etc/nginx/ssl:ro
+  #   depends_on:
+  #     - qsheet
+  #   restart: unless-stopped
+
+  # Optional: cron for scheduled tasks (reminders)
+  # cron:
+  #   build: .
+  #   container_name: f3-qsheet-cron
+  #   command: >
+  #     sh -c "echo '0 8 * * * cd /app && python email_notifications.py' | crontab - && crond -f"
+  #   volumes:
+  #     - ./data:/app/data
+  #     - ./.env:/app/.env:ro
+  #   depends_on:
+  #     - qsheet
+  #   restart: unless-stopped

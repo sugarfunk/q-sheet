@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}F3 Q-Sheet{% endblock %}</title>
+
+    <!-- Tailwind CSS CDN for fast styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- HTMX for interactive elements without heavy JS -->
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+
+    <style>
+        /* Custom styles for mobile-first, fast loading */
+        body {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Quick visual feedback */
+        .htmx-request {
+            opacity: 0.7;
+            cursor: wait;
+        }
+
+        /* Slot status colors */
+        .slot-empty {
+            border-left: 4px solid #ef4444; /* red-500 */
+        }
+
+        .slot-filled {
+            border-left: 4px solid #22c55e; /* green-500 */
+        }
+
+        /* Mobile-optimized touch targets */
+        @media (max-width: 640px) {
+            .touch-target {
+                min-height: 44px;
+                min-width: 44px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <header class="bg-red-600 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <a href="/" class="text-2xl font-bold">F3 Q-Sheet</a>
+                <nav class="space-x-4">
+                    <a href="/" class="hover:underline">Schedule</a>
+                    <a href="/locations" class="hover:underline">Locations</a>
+                    {% if session.admin_logged_in %}
+                        <a href="/admin" class="hover:underline">Admin</a>
+                        <a href="/admin/logout" class="hover:underline">Logout</a>
+                    {% endif %}
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-6">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white mt-12 py-6">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; {{ now().year }} F3 Cherokee. Built for speed and simplicity.</p>
+        </div>
+    </footer>
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>

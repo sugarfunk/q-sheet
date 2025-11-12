@@ -1,0 +1,28 @@
+# F3 Q-Sheet Dependencies
+# Minimal, fast, production-ready
+
+# Core Framework
+Flask==3.0.0
+Werkzeug==3.0.1
+
+# Database
+# SQLite is built into Python, no extra dependencies needed
+
+# Environment variables
+python-dotenv==1.0.0
+
+# Password hashing
+bcrypt==4.1.2
+
+# Date/time utilities
+python-dateutil==2.8.2
+
+# Email (optional, for notifications)
+# Using stdlib smtplib - no extra dependencies
+
+# Production server
+gunicorn==21.2.0
+
+# Development tools (optional)
+# pytest==7.4.3
+# black==23.12.1

@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - F3 Q-Sheet{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto">
+    <h1 class="text-3xl font-bold text-gray-900 mb-6">Admin Dashboard</h1>
+
+    <!-- Statistics Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <div class="text-sm text-gray-600 mb-1">Coverage Rate</div>
+            <div class="text-3xl font-bold text-green-600">
+                {{ "%.1f"|format(stats.coverage_percent) }}%
+            </div>
+            <div class="text-xs text-gray-500 mt-1">Next 4 weeks</div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <div class="text-sm text-gray-600 mb-1">Total Slots</div>
+            <div class="text-3xl font-bold text-blue-600">
+                {{ stats.total_slots }}
+            </div>
+            <div class="text-xs text-gray-500 mt-1">Next 4 weeks</div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <div class="text-sm text-gray-600 mb-1">Covered Slots</div>
+            <div class="text-3xl font-bold text-green-600">
+                {{ stats.covered_slots }}
+            </div>
+            <div class="text-xs text-gray-500 mt-1">Have Q assigned</div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <div class="text-sm text-gray-600 mb-1">Empty Slots</div>
+            <div class="text-3xl font-bold text-red-600">
+                {{ stats.empty_slots }}
+            </div>
+            <div class="text-xs text-gray-500 mt-1">Need Q</div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+        <h2 class="text-xl font-bold text-gray-900 mb-4">Quick Actions</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <a href="/admin/locations"
+               class="bg-blue-600 hover:bg-blue-700 text-white text-center py-3 px-4 rounded font-medium transition touch-target">
+                Manage Locations
+            </a>
+            <a href="/admin/workouts"
+               class="bg-green-600 hover:bg-green-700 text-white text-center py-3 px-4 rounded font-medium transition touch-target">
+                Manage Workouts
+            </a>
+            <a href="/admin/signups"
+               class="bg-purple-600 hover:bg-purple-700 text-white text-center py-3 px-4 rounded font-medium transition touch-target">
+                Manage Q Signups
+            </a>
+        </div>
+    </div>
+
+    <!-- Upcoming Signups -->
+    <div class="bg-white rounded-lg shadow-md p-6">
+        <h2 class="text-xl font-bold text-gray-900 mb-4">Upcoming Q Schedule (Next 7 Days)</h2>
+
+        {% if recent_signups %}
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+                <thead class="bg-gray-50 border-b">
+                    <tr>
+                        <th class="px-4 py-2 text-left">Date</th>
+                        <th class="px-4 py-2 text-left">Time</th>
+                        <th class="px-4 py-2 text-left">Location</th>
+                        <th class="px-4 py-2 text-left">Q Name</th>
+                        <th class="px-4 py-2 text-left">Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for signup in recent_signups %}
+                    <tr class="border-b hover:bg-gray-50">
+                        <td class="px-4 py-2">{{ signup.date }}</td>
+                        <td class="px-4 py-2">{{ signup.time }}</td>
+                        <td class="px-4 py-2">{{ signup.location_name }}</td>
+                        <td class="px-4 py-2 font-medium">{{ signup.q_name }}</td>
+                        <td class="px-4 py-2">{{ signup.workout_type }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p class="text-gray-500 italic">No upcoming signups in the next 7 days</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
