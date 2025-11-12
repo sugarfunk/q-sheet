@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Q Signups - F3 Q-Sheet{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold text-gray-900">Manage Q Signups</h1>
+        <a href="/admin" class="text-blue-600 hover:underline">← Back to Dashboard</a>
+    </div>
+
+    <!-- Signups List -->
+    <div class="bg-white rounded-lg shadow-md p-6">
+        <h2 class="text-xl font-bold text-gray-900 mb-4">Upcoming Q Signups (Next 4 Weeks)</h2>
+
+        {% if signups %}
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+                <thead class="bg-gray-50 border-b">
+                    <tr>
+                        <th class="px-4 py-2 text-left">Date</th>
+                        <th class="px-4 py-2 text-left">Time</th>
+                        <th class="px-4 py-2 text-left">Location</th>
+                        <th class="px-4 py-2 text-left">Q Name</th>
+                        <th class="px-4 py-2 text-left">Email</th>
+                        <th class="px-4 py-2 text-left">Type</th>
+                        <th class="px-4 py-2 text-left">Reminded</th>
+                        <th class="px-4 py-2 text-left">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for signup in signups %}
+                    <tr class="border-b hover:bg-gray-50">
+                        <td class="px-4 py-2">{{ signup.date }}</td>
+                        <td class="px-4 py-2">{{ signup.time }}</td>
+                        <td class="px-4 py-2">{{ signup.location_name }}</td>
+                        <td class="px-4 py-2 font-medium">{{ signup.q_name }}</td>
+                        <td class="px-4 py-2">
+                            {% if signup.q_email %}
+                                {{ signup.q_email }}
+                            {% else %}
+                                <span class="text-gray-400 italic">Not provided</span>
+                            {% endif %}
+                        </td>
+                        <td class="px-4 py-2">{{ signup.workout_type }}</td>
+                        <td class="px-4 py-2">
+                            {% if signup.reminded %}
+                                <span class="text-green-600">✓</span>
+                            {% else %}
+                                <span class="text-gray-400">-</span>
+                            {% endif %}
+                        </td>
+                        <td class="px-4 py-2">
+                            <button class="text-blue-600 hover:underline text-xs mr-2">Edit</button>
+                            <button class="text-red-600 hover:underline text-xs">Delete</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p class="text-gray-500 italic">No signups yet for the next 4 weeks</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block title %}Sign Up to Q - F3 Q-Sheet{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto">
+    <!-- Back Button -->
+    <a href="/" class="text-blue-600 hover:underline mb-4 inline-block">← Back to Schedule</a>
+
+    <!-- Workout Details -->
+    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <h1 class="text-2xl font-bold text-gray-900 mb-4">Sign Up to Q</h1>
+
+        <div class="space-y-2 text-gray-700">
+            <p><strong>Location:</strong> {{ workout.location_name }}</p>
+            <p><strong>Address:</strong> {{ workout.address }}</p>
+            <p><strong>Date:</strong> {{ date_str }}</p>
+            <p><strong>Time:</strong> {{ workout.time }}</p>
+            <p><strong>Type:</strong> {{ workout.workout_type }}</p>
+        </div>
+    </div>
+
+    {% if existing %}
+        <!-- Slot Already Taken -->
+        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
+            <h2 class="text-xl font-bold text-yellow-800 mb-2">Slot Already Taken</h2>
+            <p class="text-yellow-700 mb-4">
+                This workout already has a Q: <strong>{{ existing.q_name }}</strong>
+            </p>
+            <a href="/" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+                Back to Schedule
+            </a>
+        </div>
+    {% else %}
+        <!-- Sign-Up Form -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-xl font-bold text-gray-900 mb-4">Enter Your Information</h2>
+
+            {% if error %}
+            <div class="bg-red-50 border border-red-200 text-red-700 rounded p-4 mb-4">
+                {{ error }}
+            </div>
+            {% endif %}
+
+            <form method="POST" class="space-y-4">
+                <!-- Q Name (Required) -->
+                <div>
+                    <label for="q_name" class="block text-sm font-medium text-gray-700 mb-1">
+                        Your Name (F3 Name) *
+                    </label>
+                    <input type="text"
+                           id="q_name"
+                           name="q_name"
+                           required
+                           class="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 touch-target"
+                           placeholder="e.g., Squeegee">
+                </div>
+
+                <!-- Email (Optional) -->
+                <div>
+                    <label for="q_email" class="block text-sm font-medium text-gray-700 mb-1">
+                        Email (Optional - for reminders)
+                    </label>
+                    <input type="email"
+                           id="q_email"
+                           name="q_email"
+                           class="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 touch-target"
+                           placeholder="your.email@example.com">
+                    <p class="text-xs text-gray-500 mt-1">We'll send you a reminder 2 days before</p>
+                </div>
+
+                <!-- Notes (Optional) -->
+                <div>
+                    <label for="notes" class="block text-sm font-medium text-gray-700 mb-1">
+                        Notes (Optional)
+                    </label>
+                    <textarea id="notes"
+                              name="notes"
+                              rows="3"
+                              class="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                              placeholder="Any special notes about this Q?"></textarea>
+                </div>
+
+                <!-- Password (Required) -->
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700 mb-1">
+                        Sign-Up Password *
+                    </label>
+                    <input type="password"
+                           id="password"
+                           name="password"
+                           required
+                           class="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500 touch-target"
+                           placeholder="Ask your region's admin for the password">
+                    <p class="text-xs text-gray-500 mt-1">
+                        This is a shared password to prevent spam. Ask your PAX if you don't have it.
+                    </p>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="pt-4">
+                    <button type="submit"
+                            class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded transition touch-target">
+                        Sign Up to Q
+                    </button>
+                </div>
+            </form>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
